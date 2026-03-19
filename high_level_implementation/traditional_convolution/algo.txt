@@ -1,0 +1,118 @@
+# Convolution algorithm
+number of filter coeff = k
+number of data points = n
+n > k
+
+select a block of data where #data_selected = #coeff = k
+
+first coeff will get multiplied with last data point and second with second last
+coeff(k)*data(n-k)
+
+assume leading inputs are zeros data(-k) = 0
+
+y(n) calculation
+accumulator start with 0
+for every unique coeff(k)*data(n-k) pair do the following
+    iterate over coeff(k) to add/subtract and shift number of times = corresponding bit
+        if POT digit = 0, skip over add/sub to improve efficiency 
+        if POT digit = 1, check corresponding sign bit
+            if sign bit = 0, add data(n-k) then shift right by one bit
+            sign bit = 1, sub, shift
+    shift left by 8bits (length(coeff)/2)
+
+
+
+scan vectors
+scan flop insert, chain tie, tie all scan flops in single chain
+scan enable d flop
+
+Step 1: Pre compute coeff and store in usable format
+
+    def generate_h_pot(coeff)
+    0: (sign, index), (sign, index), (sign, index)
+    data structure: arrays of vector
+    h[255][]
+    
+    for(i: 0 -> 255):
+
+        hex_coeff = coeff_file[i]
+        binary_coeff = h_to_b(hex_coeff)
+
+        for(j: 0 -> 15):
+            temp = 0
+            if (binary_coeff[j] == 1)
+                temp = 16-j
+                temp = binary_coeff[j+15] ? temp*(-1) : temp
+                h[i].append(temp)
+
+Step 2: read data and calculate u list
+
+    generate_u_list(data)
+    //data = data_file[0->255]
+
+        u[16]
+        for (i:0->255):
+            while(pot_digit = h[j], till over): x(0) * h(-13, 4)
+                u[mod(pot_digit)] ? pot_digit < 0 = u[mod(pot_digit)] + data[255-i] : u[mod(pot_digit)] - data[255-i]                                                                                                                           
+                j++
+        
+        return u
+
+Step 3: Build helper functions
+
+    sign_extend(temp)
+    shift_right(temp)
+    add(temp)
+
+Step 4: calculate y[]
+
+    calculate_y(u, data)
+        product = h_to_b(u1+u2)
+        shift_right(product)
+
+        for(i:0->12):
+            add(product + u[i+3])
+            shift_right(product)
+    
+
+Step 5: main
+
+    for(n:0->data_length):
+        
+
+    
+        
+--------------------------------------------------------------------------------------------------------------
+
+    Coeff in 8'h [{sign bits} , {POT digits}]
+
+    h[1:0][15:0][255:0] 2 for sign and shift op, 16 for POT, order is 255
+    h[i] = [sign(l),shift(l)] #i = 256 and #l = 16 
+
+    for(i: 0 -> 255):
+        hex_coeff = coeff_file[i]
+        binary_coeff = h_to_b(hex_coeff)
+
+        for(j: 0 -> 15):
+            if (binary_coeff[j] == 1)
+                h[0][j][i] = binary_coeff[j+15] #set sign to corresponding sign bit
+                h[1][j][i] = 16-j               #set shift to sign bit index    0:-16, 1:-15 ......
+            else
+                h[0][j][i] = 0
+                h[1][j][i] = 0
+
+
+        
+
+Step 2: Build helper functions
+
+    sign_extend(temp)
+    shift_right(temp)
+    add(temp)
+
+
+Step 3: Calculate y
+
+    Read data: 0-255
+
+    for(i:0->255):
