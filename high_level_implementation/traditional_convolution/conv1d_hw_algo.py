@@ -136,23 +136,7 @@ def calculate_yn(data_slice:list, coeff_list:list, n:int) -> int:
             temp = right_shift(temp, 1)
 
         accum = bin_add(accum, temp)
-    # for k in range(256):
-
-    #     curr_coeff = coeff_list[k]
-    #     curr_data = data_slice[255-k]
-    #     if (curr_data[0] != 40 * '0'):
-    #         accum = left_shift(accum, 16)
-    #         for i in range(16):
-    #             curr_POTdig = curr_coeff[31-i]
-    #             if (curr_POTdig == '1'):
-    #                 if (curr_coeff[31-i-16] == '0'):
-    #                     accum = bin_add(accum, curr_data[0])
-    #             else:
-    #                 if (curr_coeff[31-i-16] == '1'):
-    #                     accum = bin_add(accum, curr_data[1])
-    #             accum = right_shift(accum, 1)
             
-
     accum = hex(int(accum,2))
     return accum
 
