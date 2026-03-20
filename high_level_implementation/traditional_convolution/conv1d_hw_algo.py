@@ -124,18 +124,19 @@ def calculate_yn(data_slice:list, coeff_list:list, n:int) -> int:
 
         temp = 40 * '0'
 
-        for i in range(16):
-            curr_POTdig = curr_coeff[31 - i]
+        if (curr_data[0] != 40*'0'):
+            for i in range(16):
+                curr_POTdig = curr_coeff[31 - i]
 
-            if curr_POTdig == '1':
-                if curr_coeff[31 - i - 16] == '0':
-                    temp = bin_add(temp, curr_data[0])
-                else:
-                    temp = bin_add(temp, curr_data[1])
+                if curr_POTdig == '1':
+                    if curr_coeff[31 - i - 16] == '0':
+                        temp = bin_add(temp, curr_data[0])
+                    else:
+                        temp = bin_add(temp, curr_data[1])
 
-            temp = right_shift(temp, 1)
+                temp = right_shift(temp, 1)
 
-        accum = bin_add(accum, temp)
+            accum = bin_add(accum, temp)
             
     accum = hex(int(accum,2))
     return accum
@@ -143,7 +144,7 @@ def calculate_yn(data_slice:list, coeff_list:list, n:int) -> int:
 
 coeff_list = coeff_formatting()
 bin_formatted_data = data_formatting()
-for n in range(10):
+for n in range(15):
     data_window = data_slice(n, bin_formatted_data)
     y_n = calculate_yn(data_window, coeff_list, n)
     print(y_n)
