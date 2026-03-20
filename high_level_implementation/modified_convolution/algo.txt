@@ -1,0 +1,16 @@
+Course algo:
+
+y(n) = 2^-1(
+    u4 + 2^-1(
+        u3 + 2^-1(
+                 u1)))
+
+compute all u from coefficients and Rj
+    coefficients- gives relative position of data and sign
+    Rj- number of data points associated with each u bucket
+
+start with 0
+for every u
+    add u to accumulator
+    shift left by one bit
+
